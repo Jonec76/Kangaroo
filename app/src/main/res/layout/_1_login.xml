@@ -55,6 +55,22 @@
               android:layout_marginTop="16dp"
               app:layout_constraintEnd_toEndOf="@+id/account"
               app:layout_constraintStart_toStartOf="@+id/account" app:layout_constraintHorizontal_bias="0.0"/>
+    <com.facebook.login.widget.LoginButton
+            android:id="@+id/FB_login_button"
+            android:layout_width="104dp"
+            android:layout_height="24dp"
+            android:layout_gravity="center_horizontal"
+            app:layout_constraintTop_toBottomOf="@+id/tv_password"
+            android:layout_marginTop="56dp" app:layout_constraintStart_toStartOf="@+id/tv_password"
+            android:layout_marginLeft="60dp" android:layout_marginStart="60dp"
+            app:layout_constraintEnd_toEndOf="@+id/tv_password" app:layout_constraintHorizontal_bias="0.757"/>
+    <com.google.android.gms.common.SignInButton
+            android:id="@+id/Google_login_button"
+            android:layout_width="127dp"
+            android:layout_height="34dp"
+            app:layout_constraintTop_toBottomOf="@+id/password"
+            android:layout_marginTop="40dp" app:layout_constraintEnd_toEndOf="@+id/password"
+            app:layout_constraintStart_toStartOf="@+id/password" app:layout_constraintHorizontal_bias="0.285"/>
     <Button android:layout_width="131dp"
             android:layout_height="56dp"
             android:id="@+id/accountSubmit"
@@ -64,5 +80,11 @@
             app:layout_constraintBottom_toBottomOf="parent"
             android:layout_marginEnd="8dp" android:layout_marginRight="8dp" android:layout_marginLeft="8dp"
             android:layout_marginStart="8dp" app:layout_constraintHorizontal_bias="0.482" android:layout_marginTop="8dp"
-            app:layout_constraintTop_toBottomOf="@+id/password" app:layout_constraintVertical_bias="0.371"/>
+            app:layout_constraintTop_toBottomOf="@+id/FB_login_button" app:layout_constraintVertical_bias="0.371"/>
+    <Button
+            android:text="登出"
+            android:layout_width="126dp"
+            android:layout_height="47dp"
+            android:id="@+id/Google_logout_button" android:visibility="invisible"
+            tools:layout_editor_absoluteY="540dp" tools:layout_editor_absoluteX="38dp"/>
 </androidx.constraintlayout.widget.ConstraintLayout>
