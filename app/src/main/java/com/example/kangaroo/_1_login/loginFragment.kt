@@ -26,11 +26,13 @@ import com.google.android.gms.common.SignInButton
 import com.google.android.gms.common.api.ApiException
 import com.google.android.gms.common.api.GoogleApiClient
 import com.google.android.gms.tasks.Task
+import okhttp3.ResponseBody
+import retrofit2.Call
+import retrofit2.Callback
+import retrofit2.Response
 
 
-//1
 class loginFragment : Fragment() {
-    //2
     val callbackManager = CallbackManager.Factory.create();
     val GOOGLE_LOGIN = 1
 
@@ -45,14 +47,9 @@ class loginFragment : Fragment() {
         view.accountSubmit.setOnClickListener {
             val account = view.account.text.toString()
             val password = view.password.text.toString()
-            if(account == "admin" && password == "admin"){
-                Toast.makeText(context, "登入成功", Toast.LENGTH_SHORT).show()
-                view.img_lock.setImageResource(R.drawable.ic_lock_open_black_24dp)
-            }else{
-                Toast.makeText(context, "登入失敗", Toast.LENGTH_SHORT).show()
-                view.img_lock.setImageResource(R.drawable.ic_lock_outline_black_24dp)
+//            localVerified(account, password, view)
+            serverVerified(account, password, view)
 
-            }
             view.account.text.clear()
             view.password.text.clear()
         }
@@ -139,6 +136,42 @@ class loginFragment : Fragment() {
                 }
         }
 
+    }
+
+    fun localVerified(account:String, password:String, view:View){
+        if(account == "admin" && password == "admin"){
+            Toast.makeText(context, "登入成功", Toast.LENGTH_SHORT).show()
+            view.img_lock.setImageResource(R.drawable.ic_lock_open_black_24dp)
+        }else{
+            Toast.makeText(context, "登入失敗", Toast.LENGTH_SHORT).show()
+            view.img_lock.setImageResource(R.drawable.ic_lock_outline_black_24dp)
+        }
+    }
+
+    fun serverVerified(account:String, password:String, view:View){
+        val call: Call<ResponseBody> = ApiClient.getClient.loginAccount(DataModel.loginBody(account, password))
+        call.enqueue(object : Callback<ResponseBody> {
+            override fun onResponse(call: Call<ResponseBody>?, response: Response<ResponseBody>?) {
+                if(response!!.isSuccessful){ // 2XX
+                    var res = response.body()!!.string()
+                    if(res == "success"){
+                        Toast.makeText(context, "登入成功", Toast.LENGTH_SHORT).show()
+                        view.img_lock.setImageResource(R.drawable.ic_lock_open_black_24dp)
+                    }else{
+                        Toast.makeText(context, "登入失敗", Toast.LENGTH_SHORT).show()
+                        view.img_lock.setImageResource(R.drawable.ic_lock_outline_black_24dp)
+                    }
+                    Toast.makeText(context, res, Toast.LENGTH_SHORT).show()
+                }else{
+                    // 404
+                }
+            }
+            override fun onFailure(call: Call<ResponseBody>?, t: Throwable?) {
+                Log.d("what", t.toString())
+                Toast.makeText(context, "Server isn't working", Toast.LENGTH_SHORT).show()
+
+            }
+        })
     }
 
     fun googleLoginResult(data: Intent?){
