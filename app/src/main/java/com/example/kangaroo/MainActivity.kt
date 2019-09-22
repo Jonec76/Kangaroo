@@ -1,8 +1,8 @@
 package com.example.kangaroo
 
+import android.content.Context
 import android.os.Bundle
-import com.google.android.material.floatingactionbutton.FloatingActionButton
-import com.google.android.material.snackbar.Snackbar
+import android.util.Log
 import androidx.core.view.GravityCompat
 import androidx.appcompat.app.ActionBarDrawerToggle
 import android.view.MenuItem
@@ -11,7 +11,13 @@ import com.google.android.material.navigation.NavigationView
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.widget.Toolbar
 import android.view.Menu
+import android.view.inputmethod.InputMethodManager
+import androidx.fragment.app.Fragment
 import com.example.kangaroo._1_login.loginFragment
+import com.example.kangaroo._2_fragmentDemo.fragmentDemo
+import kotlinx.android.synthetic.main._2_fragment_demo.*
+import kotlinx.android.synthetic.main._2_fragment_demo.view.*
+import kotlinx.android.synthetic.main.content_main.*
 
 class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelectedListener {
     val fm = supportFragmentManager
@@ -20,12 +26,11 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
         setContentView(R.layout.activity_main)
         val toolbar: Toolbar = findViewById(R.id.toolbar)
         setSupportActionBar(toolbar)
-
-//        val fab: FloatingActionButton = findViewById(R.id.fab)
-//        fab.setOnClickListener { view ->
-//            Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
-//                .setAction("Action", null).show()
-//        }
+        loginFrame.setOnClickListener {
+            val imm = this.getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
+            imm.hideSoftInputFromWindow(input_edit.getWindowToken(), 0)
+            loginFrame.requestFocus()
+        }
         val drawerLayout: DrawerLayout = findViewById(R.id.drawer_layout)
         val navView: NavigationView = findViewById(R.id.nav_view)
         val toggle = ActionBarDrawerToggle(
@@ -66,14 +71,35 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
         // Handle navigation view item clicks here.
         when (item.itemId) {
             R.id.nav_1 -> {
+                var tmpFragment: Fragment? = fm.findFragmentByTag("loginFragment")
+                if(tmpFragment == null)
+                    tmpFragment = loginFragment()
+
                 fm.beginTransaction()
                     .setCustomAnimations(R.anim.fade_in, R.anim.fade_out)
-                    .replace(R.id.loginFrame,  loginFragment())
+                    .replace(R.id.loginFrame, tmpFragment, "loginFragment")
+                    .addToBackStack(null)
+                    .commit()
+            }
+            R.id.nav_2 -> {
+                var tmpFragment: Fragment? = fm.findFragmentByTag("fragmentDemo")
+                if(tmpFragment == null)
+                    tmpFragment = fragmentDemo()
+
+                fm.beginTransaction()
+                    .setCustomAnimations(R.anim.fade_in, R.anim.fade_out)
+                    .replace(R.id.loginFrame, tmpFragment, "fragmentDemo")
+                    .addToBackStack(null)
                     .commit()
             }
         }
         val drawerLayout: DrawerLayout = findViewById(R.id.drawer_layout)
         drawerLayout.closeDrawer(GravityCompat.START)
         return true
+    }
+
+    override fun onSaveInstanceState(outState: Bundle) {
+        super.onSaveInstanceState(outState)
+        Log.d("state", "fragme")
     }
 }

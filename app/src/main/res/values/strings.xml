@@ -9,6 +9,7 @@
     <string name="facebook_app_id">529953884427198</string> <string name="fb_login_protocol_scheme">fb529953884427198</string>
     <string name="server_client_id">280860793186-lh6p5nd9lgl2llno01l5d2r93a7mj8um.apps.googleusercontent.com</string>
     <string name="menu_1">login</string>
+    <string name="menu_2">fragmentDemo</string>
     <string name="menu_gallery">Gallery</string>
     <string name="menu_slideshow">Slideshow</string>
     <string name="menu_tools">Tools</string>
