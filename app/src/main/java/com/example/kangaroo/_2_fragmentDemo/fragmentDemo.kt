@@ -4,6 +4,7 @@ import android.content.Context
 import android.os.Bundle
 import android.util.Log
 import android.view.LayoutInflater
+import android.view.MotionEvent
 import android.view.View
 import android.view.ViewGroup
 import android.view.inputmethod.EditorInfo
@@ -18,9 +19,11 @@ class fragmentDemo : Fragment() {
     val SPIN_KEY = "spin"
     val FM_REPLACE_KEY = "replace"
 
+
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         Log.d("state", "onCreateView")
         val view = inflater.inflate(R.layout._2_fragment_demo, container, false)
+
         if(outState != null){
             Log.d("state", "get bundle saved")
             Log.d("bundle", outState.toString())
@@ -31,6 +34,7 @@ class fragmentDemo : Fragment() {
             Log.d("bundle", savedInstanceState.toString())
             view.show_input.text = savedInstanceState.getString(FM_REPLACE_KEY)
         }
+
         view.input_edit.setOnEditorActionListener { textView, i, keyEvent ->
             if(i == EditorInfo.IME_ACTION_DONE){
                 view.input_edit.clearFocus();
@@ -40,6 +44,7 @@ class fragmentDemo : Fragment() {
             }
             false
         }
+
         view.submit.setOnClickListener {
             view.show_input.text = view.input_edit.text
             view.input_edit.text.clear()

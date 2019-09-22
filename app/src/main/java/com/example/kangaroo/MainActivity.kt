@@ -18,6 +18,10 @@ import com.example.kangaroo._2_fragmentDemo.fragmentDemo
 import kotlinx.android.synthetic.main._2_fragment_demo.*
 import kotlinx.android.synthetic.main._2_fragment_demo.view.*
 import kotlinx.android.synthetic.main.content_main.*
+import android.widget.EditText
+import android.view.MotionEvent
+
+
 
 class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelectedListener {
     val fm = supportFragmentManager
@@ -26,11 +30,7 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
         setContentView(R.layout.activity_main)
         val toolbar: Toolbar = findViewById(R.id.toolbar)
         setSupportActionBar(toolbar)
-        loginFrame.setOnClickListener {
-            val imm = this.getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
-            imm.hideSoftInputFromWindow(input_edit.getWindowToken(), 0)
-            loginFrame.requestFocus()
-        }
+
         val drawerLayout: DrawerLayout = findViewById(R.id.drawer_layout)
         val navView: NavigationView = findViewById(R.id.nav_view)
         val toggle = ActionBarDrawerToggle(
@@ -65,6 +65,18 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
             R.id.action_settings -> true
             else -> super.onOptionsItemSelected(item)
         }
+    }
+
+    override fun dispatchTouchEvent(event: MotionEvent): Boolean {
+        if (event.action == MotionEvent.ACTION_DOWN) {
+            val v = currentFocus
+            if (v is EditText) {
+                v.clearFocus()
+                val imm = getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
+                imm.hideSoftInputFromWindow(v.windowToken, 0)
+            }
+        }
+        return super.dispatchTouchEvent(event)
     }
 
     override fun onNavigationItemSelected(item: MenuItem): Boolean {
