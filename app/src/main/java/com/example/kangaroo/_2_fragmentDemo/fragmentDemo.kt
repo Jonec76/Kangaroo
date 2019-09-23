@@ -23,12 +23,7 @@ class fragmentDemo : Fragment() {
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         Log.d("state", "onCreateView")
         val view = inflater.inflate(R.layout._2_fragment_demo, container, false)
-
-        if(outState != null){
-            Log.d("state", "get bundle saved")
-            Log.d("bundle", outState.toString())
-            view.show_input.text = outState.getString(FM_REPLACE_KEY)
-        }
+        view.show_input.text = outState?.getString(FM_REPLACE_KEY)
         if(savedInstanceState != null){
             Log.d("state", "get bundle savedInstanceState")
             Log.d("bundle", savedInstanceState.toString())

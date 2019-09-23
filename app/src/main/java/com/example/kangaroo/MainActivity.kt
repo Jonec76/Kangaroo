@@ -3,43 +3,42 @@ package com.example.kangaroo
 import android.content.Context
 import android.os.Bundle
 import android.util.Log
+import android.view.*
+import android.view.View.*
 import androidx.core.view.GravityCompat
 import androidx.appcompat.app.ActionBarDrawerToggle
-import android.view.MenuItem
 import androidx.drawerlayout.widget.DrawerLayout
 import com.google.android.material.navigation.NavigationView
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.widget.Toolbar
-import android.view.Menu
 import android.view.inputmethod.InputMethodManager
 import androidx.fragment.app.Fragment
 import com.example.kangaroo._1_login.loginFragment
 import com.example.kangaroo._2_fragmentDemo.fragmentDemo
-import kotlinx.android.synthetic.main._2_fragment_demo.*
-import kotlinx.android.synthetic.main._2_fragment_demo.view.*
-import kotlinx.android.synthetic.main.content_main.*
 import android.widget.EditText
-import android.view.MotionEvent
-
+import android.view.animation.*
+import kotlinx.android.synthetic.main.activity_main.*
 
 
 class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelectedListener {
     val fm = supportFragmentManager
+    inner class animListnerEnd():Animation.AnimationListener{
+        override fun onAnimationRepeat(p0: Animation?) {
+        }
+
+        override fun onAnimationEnd(p0: Animation?) {
+            drawer_layout.visibility = VISIBLE
+        }
+        override fun onAnimationStart(p0: Animation?) {
+        }
+    }
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+
+        setStartAnim()
         setContentView(R.layout.activity_main)
-        val toolbar: Toolbar = findViewById(R.id.toolbar)
-        setSupportActionBar(toolbar)
-
-        val drawerLayout: DrawerLayout = findViewById(R.id.drawer_layout)
-        val navView: NavigationView = findViewById(R.id.nav_view)
-        val toggle = ActionBarDrawerToggle(
-            this, drawerLayout, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close
-        )
-        drawerLayout.addDrawerListener(toggle)
-        toggle.syncState()
-
-        navView.setNavigationItemSelectedListener(this)
+        configNavDefaultWidget()
     }
 
     override fun onBackPressed() {
@@ -114,4 +113,32 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
         super.onSaveInstanceState(outState)
         Log.d("state", "fragme")
     }
+
+    fun setStartAnim(){
+        val decorView = window.decorView as ViewGroup
+        val inflater = getSystemService(Context.LAYOUT_INFLATER_SERVICE) as LayoutInflater
+        val startLayoutView = inflater.inflate(R.layout.start_layout, null)
+        var performAnimation:Animation = AnimationUtils.loadAnimation(this, R.anim.fade_in_out);
+
+        decorView.addView(startLayoutView, 0)
+        val animListnerEnd = animListnerEnd()
+        performAnimation.setAnimationListener(animListnerEnd)
+        startLayoutView.startAnimation(performAnimation)
+    }
+
+    fun configNavDefaultWidget(){
+        val toolbar: Toolbar = findViewById(R.id.toolbar)
+        setSupportActionBar(toolbar)
+
+        val drawerLayout: DrawerLayout = findViewById(R.id.drawer_layout)
+        val navView: NavigationView = findViewById(R.id.nav_view)
+        val toggle = ActionBarDrawerToggle(
+            this, drawerLayout, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close
+        )
+        drawerLayout.addDrawerListener(toggle)
+        toggle.syncState()
+
+        navView.setNavigationItemSelectedListener(this)
+    }
 }
+
