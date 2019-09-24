@@ -1,6 +1,8 @@
 package com.example.kangaroo
 
 import android.content.Context
+import android.media.MediaPlayer
+import android.media.SoundPool
 import android.os.Bundle
 import android.util.Log
 import android.view.*
@@ -22,12 +24,20 @@ import kotlinx.android.synthetic.main.activity_main.*
 
 class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelectedListener {
     val fm = supportFragmentManager
+    private var mp : MediaPlayer? = null
+    private var sp = SoundPool.Builder().setMaxStreams(8).build();
+    private val sounds = mutableListOf<Int>()
+
+
+
     inner class animListnerEnd():Animation.AnimationListener{
         override fun onAnimationRepeat(p0: Animation?) {
         }
 
         override fun onAnimationEnd(p0: Animation?) {
             drawer_layout.visibility = VISIBLE
+            sp.pause(sounds[0])
+
         }
         override fun onAnimationStart(p0: Animation?) {
         }
@@ -35,8 +45,11 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-
-        setStartAnim()
+        sounds.add(sp.load(this, R.raw.star, 1))
+        sp.setOnLoadCompleteListener { soundPool, sampleId, status ->
+            soundPool.play(sounds[0], 1.0f, 1.0f, 1, 2, 1.0f)
+            setStartAnim()
+        }
         setContentView(R.layout.activity_main)
         configNavDefaultWidget()
     }
