@@ -9,7 +9,6 @@ object ApiClient {
     var BASE_URL:String="http://192.168.58.137:3000"
     val getClient: ApiInterface
         get() {
-
             val retrofit = Retrofit.Builder()
                 .baseUrl(BASE_URL)
                 .addConverterFactory(GsonConverterFactory.create())

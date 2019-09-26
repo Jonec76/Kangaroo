@@ -19,6 +19,7 @@ import com.example.kangaroo._1_login.loginFragment
 import com.example.kangaroo._2_fragmentDemo.fragmentDemo
 import android.widget.EditText
 import android.view.animation.*
+import com.example.kangaroo._3_viewPager.viewPager
 import kotlinx.android.synthetic.main.activity_main.*
 
 
@@ -113,6 +114,18 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
                 fm.beginTransaction()
                     .setCustomAnimations(R.anim.fade_in, R.anim.fade_out)
                     .replace(R.id.loginFrame, tmpFragment, "fragmentDemo")
+                    .addToBackStack(null)
+                    .commit()
+            }
+
+            R.id.nav_3 ->{
+                var tmpFragment: Fragment? = fm.findFragmentByTag("viewPager")
+                if(tmpFragment == null)
+                    tmpFragment = viewPager()
+
+                fm.beginTransaction()
+                    .setCustomAnimations(R.anim.fade_in, R.anim.fade_out)
+                    .replace(R.id.loginFrame, tmpFragment, "viewPager")
                     .addToBackStack(null)
                     .commit()
             }
