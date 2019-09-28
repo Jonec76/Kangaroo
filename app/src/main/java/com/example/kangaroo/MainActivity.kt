@@ -20,6 +20,7 @@ import com.example.kangaroo._2_fragmentDemo.fragmentDemo
 import android.widget.EditText
 import android.view.animation.*
 import com.example.kangaroo._3_viewPager.viewPager
+import com.example.kangaroo._4_todoList.todoList
 import kotlinx.android.synthetic.main.activity_main.*
 
 
@@ -126,6 +127,17 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
                 fm.beginTransaction()
                     .setCustomAnimations(R.anim.fade_in, R.anim.fade_out)
                     .replace(R.id.loginFrame, tmpFragment, "viewPager")
+                    .addToBackStack(null)
+                    .commit()
+            }
+            R.id.nav_4 ->{
+                var tmpFragment: Fragment? = fm.findFragmentByTag("todoList")
+                if(tmpFragment == null)
+                    tmpFragment = todoList()
+
+                fm.beginTransaction()
+                    .setCustomAnimations(R.anim.fade_in, R.anim.fade_out)
+                    .replace(R.id.loginFrame, tmpFragment, "todoList")
                     .addToBackStack(null)
                     .commit()
             }
