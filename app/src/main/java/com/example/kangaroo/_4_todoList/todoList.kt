@@ -1,5 +1,6 @@
 package com.example.kangaroo._4_todoList
 
+import android.content.Intent
 import android.os.Bundle
 import android.util.Log
 import android.view.LayoutInflater
@@ -13,12 +14,21 @@ class todoList: Fragment() {
     val recyclerAdapter =  recyclerAdapter()
     private var holderList = mutableListOf<Holder.Datas>()
     val NEW_DATA = "new"
+    val NEW_IMG = "img"
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         Log.d("status", "onCreateView")
-        if(arguments != null){
+        if(arguments?.getString(NEW_DATA) != null){
             val newTxt = arguments?.getString(NEW_DATA)
             holderList.add(Holder.Datas(null, newTxt))
+            recyclerAdapter.update(holderList)
+        }
+
+        if(arguments?.getParcelableArrayList<Holder.Datas>(NEW_IMG) != null){
+            val newTxt = arguments?.getParcelableArrayList<Holder.Datas>(NEW_IMG)
+            for(i in 0..newTxt!!.size-1){
+                holderList.add(newTxt[i])
+            }
             recyclerAdapter.update(holderList)
         }
         val view = inflater.inflate(R.layout._4_todo_list, container, false)
@@ -36,6 +46,8 @@ class todoList: Fragment() {
 
         return view
     }
+
+
 
     override fun onStop() {
         super.onStop()

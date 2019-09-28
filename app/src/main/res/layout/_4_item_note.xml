@@ -25,7 +25,7 @@
     <ImageView
             android:layout_width="145dp"
             android:layout_height="65dp" tools:srcCompat="@tools:sample/avatars"
-            android:id="@+id/tv_img" app:layout_constraintTop_toTopOf="parent"
+            android:id="@+id/localPhoto" app:layout_constraintTop_toTopOf="parent"
             app:layout_constraintEnd_toStartOf="@+id/tv_note" android:layout_marginEnd="8dp"
             android:layout_marginBottom="8dp" app:layout_constraintBottom_toBottomOf="parent"
             />
