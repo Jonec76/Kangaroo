@@ -21,6 +21,7 @@ import android.widget.EditText
 import android.view.animation.*
 import com.example.kangaroo._3_viewPager.viewPager
 import com.example.kangaroo._4_todoList.todoList
+import com.example.kangaroo._5_chatRoom.chatRoom
 import kotlinx.android.synthetic.main.activity_main.*
 
 
@@ -141,6 +142,20 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
                     .addToBackStack(null)
                     .commit()
             }
+
+            R.id.nav_5 ->{
+                var tmpFragment: Fragment? = fm.findFragmentByTag("chatRoom")
+                if(tmpFragment == null)
+                    tmpFragment = chatRoom()
+
+                fm.beginTransaction()
+                    .setCustomAnimations(R.anim.fade_in, R.anim.fade_out)
+                    .replace(R.id.loginFrame, tmpFragment, "chatRoom")
+                    .addToBackStack(null)
+                    .commit()
+            }
+
+
         }
         val drawerLayout: DrawerLayout = findViewById(R.id.drawer_layout)
         drawerLayout.closeDrawer(GravityCompat.START)
